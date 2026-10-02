@@ -1,0 +1,31 @@
+name: SiT
+channels:
+  - conda-forge
+dependencies:
+  # Match the tested runtime used for SiT and Rectified Flow experiments.
+  - python=3.10
+  # Required when Rectified Flow imports/compiles its CUDA/C++ extensions.
+  - ninja
+  - pip
+  - pip:
+    # Explicit CUDA builds prevent a CPU-only Conda solve (Linux x86_64).
+    - --extra-index-url https://download.pytorch.org/whl/cu124
+    - torch==2.6.0+cu124
+    - torchvision==0.21.0+cu124
+    - matplotlib
+    # Shared SiT, original RF, and FlowDCN runtime dependencies.
+    # Matches the Triton requirement of the installed PyTorch 2.6.0 Linux runtime.
+    - triton==3.2.0
+    - timm==1.0.29
+    - diffusers==0.40.0
+    - accelerate==1.14.0
+    - torchdiffeq==0.2.5
+    - wandb==0.29.0
+    - numpy==2.2.6
+    - scipy==1.15.3
+    - pillow==12.3.0
+    - tqdm==4.70.0
+    - gdown==6.1.0
+    - ml-collections==1.1.0
+    # Used by guided-diffusion/evaluations/evaluator.py for FID.
+    - tensorflow==2.21.0

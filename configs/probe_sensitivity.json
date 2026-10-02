@@ -1,0 +1,71 @@
+{
+  "pairs": [
+    {
+      "model": "1-RF",
+      "solver": "euler",
+      "script": "rectified_flow_cifar10/estimate_euler_budget_fm.py",
+      "args": [
+        "--data-root",
+        "${FLOWBUDGET_CIFAR10}",
+        "--checkpoint",
+        "${FLOWBUDGET_RF_CHECKPOINTS}/cifar10_1_rectified_flow.pth"
+      ]
+    },
+    {
+      "model": "2-RF",
+      "solver": "euler",
+      "script": "rectified_flow_cifar10/estimate_euler_budget_fm.py",
+      "args": [
+        "--data-root",
+        "${FLOWBUDGET_CIFAR10}",
+        "--checkpoint",
+        "${FLOWBUDGET_RF_CHECKPOINTS}/cifar10_2_rectified_flow.pth"
+      ]
+    },
+    {
+      "model": "3-RF",
+      "solver": "euler",
+      "script": "rectified_flow_cifar10/estimate_euler_budget_fm.py",
+      "args": [
+        "--data-root",
+        "${FLOWBUDGET_CIFAR10}",
+        "--checkpoint",
+        "${FLOWBUDGET_RF_CHECKPOINTS}/cifar10_3_rectified_flow.pth"
+      ]
+    },
+    {
+      "model": "RF-UNet",
+      "solver": "euler",
+      "script": "rectified_flow_modern/estimate_euler_budget.py",
+      "args": [
+        "--derivative-method",
+        "finite_difference",
+        "--finite-difference-step",
+        "0.001"
+      ]
+    },
+    {
+      "model": "SiT-XL/2",
+      "solver": "euler",
+      "script": "SiT_Imagenet/estimate_euler_budget_fm_unguided.py",
+      "args": [
+        "--data-path",
+        "${FLOWBUDGET_IMAGENET}",
+        "--vae",
+        "ema"
+      ]
+    },
+    {
+      "model": "SiT-XL/2",
+      "solver": "heun",
+      "script": "SiT_Imagenet/estimate_heun_budget_fm_unguided.py",
+      "args": [
+        "--data-path",
+        "${FLOWBUDGET_IMAGENET}",
+        "--vae",
+        "mse"
+      ]
+    }
+  ],
+  "base_dir": "${FLOWBUDGET_ROOT}"
+}

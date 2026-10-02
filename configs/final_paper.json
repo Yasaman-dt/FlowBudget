@@ -1,0 +1,271 @@
+{
+  "schema_version": 1,
+  "description": "Final manuscript execution settings and estimator arguments; experimental results are kept in a separate local audit config.",
+  "probes": 2000,
+  "probe_seeds": [
+    0,
+    1,
+    2
+  ],
+  "epsilon": 1e-08,
+  "images_per_fid": 10000,
+  "ode_tau": 0.01,
+  "sde_tau": 0.015,
+  "formulas": {
+    "euler": "ceil(C/(2*tau))",
+    "heun": "ceil(sqrt(C/(12*tau)))",
+    "em": "ceil(C/(sqrt(3)*tau))"
+  },
+  "pairs": [
+    {
+      "id": "1rf_euler",
+      "model": "1-RF",
+      "solver": "euler",
+      "tau": 0.01,
+      "nfe_per_step": 1,
+      "estimation": {
+        "script": "rectified_flow_cifar10/estimate_euler_budget_fm.py",
+        "args": [
+          "--data-root",
+          "${FLOWBUDGET_CIFAR10}",
+          "--checkpoint",
+          "${FLOWBUDGET_RF_CHECKPOINTS}/cifar10_1_rectified_flow.pth",
+          "--num-samples",
+          "2000",
+          "--batch-size",
+          "1",
+          "--tau",
+          "0.01",
+          "--epsilon",
+          "1e-8",
+          "--save-probe-pool"
+        ],
+        "per_seed": true
+      }
+    },
+    {
+      "id": "2rf_euler",
+      "model": "2-RF",
+      "solver": "euler",
+      "tau": 0.01,
+      "nfe_per_step": 1,
+      "estimation": {
+        "script": "rectified_flow_cifar10/estimate_euler_budget_fm.py",
+        "args": [
+          "--data-root",
+          "${FLOWBUDGET_CIFAR10}",
+          "--checkpoint",
+          "${FLOWBUDGET_RF_CHECKPOINTS}/cifar10_2_rectified_flow.pth",
+          "--num-samples",
+          "2000",
+          "--batch-size",
+          "1",
+          "--tau",
+          "0.01",
+          "--epsilon",
+          "1e-8",
+          "--save-probe-pool"
+        ],
+        "per_seed": true
+      }
+    },
+    {
+      "id": "3rf_euler",
+      "model": "3-RF",
+      "solver": "euler",
+      "tau": 0.01,
+      "nfe_per_step": 1,
+      "estimation": {
+        "script": "rectified_flow_cifar10/estimate_euler_budget_fm.py",
+        "args": [
+          "--data-root",
+          "${FLOWBUDGET_CIFAR10}",
+          "--checkpoint",
+          "${FLOWBUDGET_RF_CHECKPOINTS}/cifar10_3_rectified_flow.pth",
+          "--num-samples",
+          "2000",
+          "--batch-size",
+          "1",
+          "--tau",
+          "0.01",
+          "--epsilon",
+          "1e-8",
+          "--save-probe-pool"
+        ],
+        "per_seed": true
+      }
+    },
+    {
+      "id": "unet_euler",
+      "model": "RF-UNet",
+      "solver": "euler",
+      "tau": 0.01,
+      "nfe_per_step": 1,
+      "estimation": {
+        "script": "rectified_flow_modern/estimate_euler_budget.py",
+        "args": [
+          "--derivative-method",
+          "finite_difference",
+          "--finite-difference-step",
+          "0.001",
+          "--num-samples",
+          "2000",
+          "--batch-size",
+          "1",
+          "--tau",
+          "0.01",
+          "--epsilon",
+          "1e-8",
+          "--save-probe-pool"
+        ],
+        "per_seed": true
+      }
+    },
+    {
+      "id": "sit_euler",
+      "model": "SiT-XL/2",
+      "solver": "euler",
+      "tau": 0.01,
+      "nfe_per_step": 1,
+      "estimation": {
+        "script": "SiT_Imagenet/estimate_euler_budget_fm_unguided.py",
+        "args": [
+          "--data-path",
+          "${FLOWBUDGET_IMAGENET}",
+          "--vae",
+          "ema",
+          "--num-samples",
+          "2000",
+          "--batch-size",
+          "1",
+          "--tau",
+          "0.01",
+          "--epsilon",
+          "1e-8",
+          "--save-probe-pool"
+        ],
+        "per_seed": true
+      }
+    },
+    {
+      "id": "sit_heun",
+      "model": "SiT-XL/2",
+      "solver": "heun",
+      "tau": 0.01,
+      "nfe_per_step": 2,
+      "estimation": {
+        "script": "SiT_Imagenet/estimate_heun_budget_fm_unguided.py",
+        "args": [
+          "--data-path",
+          "${FLOWBUDGET_IMAGENET}",
+          "--vae",
+          "mse",
+          "--num-samples",
+          "2000",
+          "--batch-size",
+          "1",
+          "--tau",
+          "0.01",
+          "--epsilon",
+          "1e-8",
+          "--save-probe-pool"
+        ],
+        "per_seed": true
+      }
+    },
+    {
+      "id": "sit_em",
+      "model": "SiT-XL/2",
+      "solver": "em",
+      "tau": 0.015,
+      "nfe_per_step": 1,
+      "estimation": {
+        "script": "SiT_Imagenet/estimate_em_budget.py",
+        "args": [
+          "--data-path",
+          "${FLOWBUDGET_IMAGENET}",
+          "--vae",
+          "ema",
+          "--num-samples",
+          "2000",
+          "--batch-size",
+          "1",
+          "--trace-probes",
+          "8",
+          "--t-min",
+          "0.01",
+          "--tau",
+          "0.015",
+          "--epsilon",
+          "1e-8"
+        ],
+        "per_seed": true
+      }
+    },
+    {
+      "id": "flowdcn_euler",
+      "model": "FlowDCN-XL-2M",
+      "solver": "euler",
+      "tau": 0.01,
+      "nfe_per_step": 1,
+      "estimation": {
+        "script": "FlowDCN/flowdcn_experiment/run.py",
+        "args": [
+          "estimate",
+          "--probes",
+          "2000",
+          "--tau",
+          "0.01",
+          "--batch-size",
+          "1"
+        ],
+        "per_seed": true,
+        "output_directory": true
+      }
+    },
+    {
+      "id": "flowdcn_heun",
+      "model": "FlowDCN-XL-2M",
+      "solver": "heun",
+      "tau": 0.01,
+      "nfe_per_step": 2,
+      "estimation": {
+        "script": "FlowDCN/flowdcn_experiment/estimate_heun_three_seeds.py",
+        "args": [
+          "--probes",
+          "2000",
+          "--tau",
+          "0.01",
+          "--batch-size",
+          "8",
+          "--seeds",
+          "0",
+          "1",
+          "2"
+        ],
+        "per_seed": false,
+        "output_directory": true
+      }
+    },
+    {
+      "id": "flowdcn_em",
+      "model": "FlowDCN-XL-2M",
+      "solver": "em",
+      "tau": 0.015,
+      "nfe_per_step": 1,
+      "estimation": {
+        "script": "FlowDCN/flowdcn_experiment/estimate_em_three_seeds.py",
+        "args": [
+          "--probes",
+          "2000",
+          "--tau",
+          "0.015",
+          "--epsilon",
+          "1e-8"
+        ],
+        "per_seed": false,
+        "output_directory": true
+      }
+    }
+  ]
+}

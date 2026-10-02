@@ -1,0 +1,16 @@
+{
+  "pairs": [
+    {
+      "model": "DiT-CIFAR10-CFG2",
+      "solver": "euler",
+      "script": "dit_flow_matching/estimate_euler_budget.py",
+      "args": [
+        "--dataset",
+        "cifar10",
+        "--cfg-scale",
+        "2.0"
+      ]
+    }
+  ],
+  "base_dir": "${FLOWBUDGET_ROOT}"
+}
